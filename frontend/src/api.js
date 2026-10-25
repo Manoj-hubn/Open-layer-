@@ -1,4 +1,7 @@
-export const API = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+export const API = import.meta.env.VITE_API_URL || 
+  (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+    ? 'https://open-layer.onrender.com/api'
+    : 'http://127.0.0.1:8000/api');
 
 export function getToken() {
   return localStorage.getItem('ol_token') || '';
