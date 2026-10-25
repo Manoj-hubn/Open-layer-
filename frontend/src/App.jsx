@@ -8,7 +8,7 @@ import {
   Workflow, ChartNoAxesCombined, UserRound, Eye, SlidersHorizontal, Trash2, Edit3
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { api, login, getToken, getUser, getExportUrl } from './api';
+import { api, login, getToken, getUser, getExportUrl, API } from './api';
 
 const navGroups = [
   { label: 'OBSERVE', items: [['Overview', LayoutDashboard], ['Applications', AppWindow], ['Metrics', ChartNoAxesCombined], ['Logs', Terminal], ['Distributed traces', GitBranch], ['Application map', Network]] },
@@ -1735,7 +1735,7 @@ function SettingsPage({ user, apiOnline, onSwitchRole }) {
         <div className="settings-row"><span>Database Persistence</span><b>SQLAlchemy ORM (SQLite / MySQL / Postgres)</b></div>
         <div className="settings-row">
           <span>API Documentation</span>
-          <a href="http://127.0.0.1:8000/docs" target="_blank" rel="noreferrer">Open Swagger Documentation ↗</a>
+          <a href={`${API.replace(/\/api\/?$/, '')}/docs`} target="_blank" rel="noreferrer">Open Swagger Documentation ↗</a>
         </div>
       </div>
 
