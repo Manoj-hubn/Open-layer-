@@ -1,0 +1,43 @@
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: open_layer
+      MYSQL_USER: open_layer_user
+      MYSQL_PASSWORD: change_this_password
+      MYSQL_ROOT_PASSWORD: change_root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - open_layer_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: mysql+pymysql://open_layer_user:change_this_password@mysql:3306/open_layer?charset=utf8mb4
+      SECRET_KEY: replace-with-a-long-random-secret
+      CORS_ORIGINS: http://localhost:5173
+      SEED_DEMO_DATA: "true"
+    ports:
+      - "8000:8000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+  frontend:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    environment:
+      VITE_API_URL: http://localhost:8000/api
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+volumes:
+  open_layer_mysql:
