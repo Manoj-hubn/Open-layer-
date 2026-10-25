@@ -198,3 +198,5 @@ pytest tests/test_api.py -v
 ## License & Attribution
 
 Developed for the Open Layer Application Observability Platform Initiative. All rights reserved.
+#   O p e n - l a y e r -  
+ 
